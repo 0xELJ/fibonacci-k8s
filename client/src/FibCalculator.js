@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 class FibCalculator extends Component {
-  state = { seeIndexes: [], values: {}, index: '' };
+  state = { seenIndexes: [], values: {}, index: '' };
 
   componentDidMount() {
     this.fetchValues();
@@ -27,7 +27,7 @@ class FibCalculator extends Component {
   }
 
   renderIndexHistory() {
-    return this.state.seeIndexes.map(({ number }) => number).join(', ');
+    return this.state.seenIndexes.map(({ number }) => number).join(', ');
   }
 
   renderValues() {
