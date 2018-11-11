@@ -25,15 +25,15 @@ after_success:
   - docker push 0xelj/multi-worker
 
 # application deployment section
-deploy:
-  provider: elasticbeanstalk
-  region: us-east-2
-  app: multi-container
-  env: MultiContainer-env
-  bucket_name: elasticbeanstalk-us-east-2-642209373481
-  bucket_path: multi-docker-app
-  on:
-    branch: master
-  access_key_id: $AWS_ACCESS_KEY
-  secret_access_key:
-    secure: $AWS_SECRET_KEY
+# deploy:
+#   provider: elasticbeanstalk
+#   region: us-east-2
+#   app: multi-container
+#   env: MultiContainer-env
+#   bucket_name: elasticbeanstalk-us-east-2-642209373481
+#   bucket_path: multi-docker-app
+#   on:
+#     branch: master
+#   access_key_id: $AWS_ACCESS_KEY
+#   secret_access_key:
+#     secure: $AWS_SECRET_KEY
