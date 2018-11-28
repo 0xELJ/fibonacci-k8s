@@ -1,0 +1,13 @@
+apiVersion: v1
+# PersistentVolumeClaim is used to mount a PersistentVolume into a Pod. PesistentVolumes are a way for users to claim durable storage withput knowing the details of the particular cloud environment.
+kind: PersistentVolumeClaim
+metadata:
+  name: database-persistent-volume-claim
+spec:
+  # the instance of storage can be used by a single node at the time for read and write operations
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    # kubernetes is going to have to find a storage option with 2 gigabytes of space
+    requests:
+      storage: 2Gi
