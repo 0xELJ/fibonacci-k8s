@@ -1,6 +1,12 @@
 sudo: required
 services:
   - docker
+env:
+  global:
+    # env variable to create unique deployment images
+    - SHA=$(git rev-parse HEAD)
+    # env variable to omit prompts in the cli
+    - CLOUDSDK_CORE_DISABLE_PROMPTS=1
 before_install:
   # Unencrypt service-account.enc.json
   - openssl aes-256-cbc -K $encrypted_0c35eebf403c_key -iv $encrypted_0c35eebf403c_iv -in service-account.json.enc -out service-account.json -d
@@ -11,3 +17,23 @@ before_install:
   - gcloud components update kubectl
   # Activation of service account with credentials in a json file
   - gcloud auth activate-service-account --key-file service-account.json
+  # Set project
+  - gcloud config set project fibonacci-k8s
+  # Set compute zone
+  - gcloud config set compute/zone us-central1-a
+  # Specify the cluster to work with
+  - gcloud container clusters get-credentials fibonacci-cluster
+  # Docker login
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  # Build the test version of multi-client
+  - docker build -t 0xelj/react-test -f ./client/Dockerfile.dev ./client
+
+script:
+  # Run tests
+  - docker run 0xelj/react-test npm run test -- --coverage
+
+deploy:
+  provider: script
+  script: bash ./deploy.sh
+  on:
+    branch: master
